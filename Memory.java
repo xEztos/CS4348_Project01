@@ -20,7 +20,10 @@ public class Memory{
 
 				// If the line submitted only has one number, it is a read request and if two numbers, it is a write request
 				if(tempArr.length == 1){
-					System.out.println(read(Integer.parseInt(tempArr[0])));
+					// if(tempArr[0] != -1)
+						System.out.println(read(Integer.parseInt(tempArr[0])));
+					// else System.exit(0);
+
 				}
 				if(tempArr.length == 2){
 					write(Integer.parseInt(tempArr[0]), Integer.parseInt(tempArr[1]));
