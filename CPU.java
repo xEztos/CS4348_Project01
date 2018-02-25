@@ -162,6 +162,7 @@ public class CPU{
 					PC = memoryRead(PC + 1);
 					break;	// Push return address onto the stack, jump to the address
 			case 24: PC = memoryRead(SP++);
+					PC++;
 					break;	// Pop return address from the stack, jump to the address
 			case 25: X++; 
 					PC++;
