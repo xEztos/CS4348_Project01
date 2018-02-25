@@ -46,8 +46,8 @@ public class CPU{
 
 
 		while(true){
-			// System.out.println("PC: " + PC);
 			IR = memoryRead(PC);
+			// System.out.println("PC: " + PC);
 			// System.out.println("IR: " + IR);
 			// System.out.println("X: " + X);
 			// System.out.println("Y: " + Y);
@@ -162,7 +162,7 @@ public class CPU{
 					PC = memoryRead(PC + 1);
 					break;	// Push return address onto the stack, jump to the address
 			case 24: PC = memoryRead(SP++);
-					PC++;
+					PC+=2;
 					break;	// Pop return address from the stack, jump to the address
 			case 25: X++; 
 					PC++;
