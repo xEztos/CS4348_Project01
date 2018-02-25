@@ -22,7 +22,7 @@ public class CPU{
 	public static void main(String[] args) throws IOException{
 		userMode = true;
 		PC = 0;
-		SP = 2000;
+		SP = 1000;
 		AC = X = Y = 0;
 
 		System.out.print("Type in the program name: ");
@@ -109,7 +109,7 @@ public class CPU{
 			case 7: memoryWrite(memoryRead(++PC), AC);
 					PC++;
 					break;	// Store the value in the AC into the address
-			case 8: AC = (int)(Math.random() * 100 + 1); 
+			case 8: AC = (int)(Math.random() * 100.0 + 1); 
 					PC++;
 					break;	// Gets a random int from 1 to 100 into the AC
 			case 9: int port = memoryRead(++PC);
@@ -157,11 +157,11 @@ public class CPU{
 						PC = memoryRead(PC + 1);
 					else PC+=2;
 					break;	// Jump to the address only if the value in the AC is NOT zero
-			case 23: SP++;
+			case 23: SP--;
 					memoryWrite(SP, PC);
 					PC = memoryRead(PC + 1);
 					break;	// Push return address onto the stack, jump to the address
-			case 24: PC = memoryRead(SP--);
+			case 24: PC = memoryRead(SP++);
 					break;	// Pop return address from the stack, jump to the address
 			case 25: X++; 
 					PC++;
@@ -169,11 +169,11 @@ public class CPU{
 			case 26: X--; 
 					PC++;
 					break;	// Decrement the value in X
-			case 27: SP++;
+			case 27: SP--;
 					memoryWrite(SP, AC);
 					PC++;
 					break;	// Push AC onto the stack
-			case 28: AC = memoryRead(SP--);
+			case 28: AC = memoryRead(SP++);
 					PC++;
 					break;	// Pop from stack into the AC
 			case 29: userMode = false;
@@ -182,15 +182,19 @@ public class CPU{
 			case 30: userMode = true;
 					PC++;
 					break;	// Return from system call
-			case 50: System.exit(0);	// End execution
+			case 50: memoryProcess.destroy();
+					System.exit(0);	// End execution
 			default: System.out.println("Case: default");
+					memoryProcess.destroy();
+					System.exit(0);
 					break;
 		}
 	}
 
 	private static void checkMemoryOutofBounds(int address){
 		if(address >= 1000 && userMode){
-			System.out.println("Address '" + address + "' Out Of Bounds. System Stack Out of Limits. Process Exiting");
+			System.out.println("Memory violation: accessing system address " + address + " in user mode. Process exiting.");
+			memoryProcess.destroy();
 			System.exit(0);
 		}
 	}
